@@ -13,6 +13,10 @@ export class AppComponent {
 
   latitude: any;
   longitude: any;
+  currentLat: any;
+  currentLong: any;
+
+  marker: google.maps.Marker;
 
   iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
 
@@ -46,6 +50,40 @@ export class AppComponent {
     this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
 
   }
+    findMe(){
+	    console.log(`findMe pressed`);
+    	if (navigator.geolocation) {
+		     console.log(`navigator object not null`);
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.showPosition(position);
+      });
+		}
+     else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  }
+  
+   
+    showPosition(position) {
+		 console.log(`inside showPosition`);
+    this.currentLat = position.coords.latitude;
+    this.currentLong = position.coords.longitude;
+
+    let location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    this.map.panTo(location);
+
+    if (!this.marker) {
+      this.marker = new google.maps.Marker({
+        position: location,
+        map: this.map,
+        title: 'Got you!'
+      });
+    }
+    else {
+      this.marker.setPosition(location);
+    }
+  }
+  
 
   setMapType(mapTypeId: string) {
     this.map.setMapTypeId(mapTypeId)
@@ -75,28 +113,5 @@ export class AppComponent {
 
   markerHandler(marker: google.maps.Marker) {
     alert('Marker\'s Title: ' + marker.getTitle());
-  }
-
-  showCustomMarker() {
-
-
-    this.map.setCenter(new google.maps.LatLng(this.latitude, this.longitude));
-
-    let location = new google.maps.LatLng(this.latitude, this.longitude);
-
-    console.log(`selected marker: ${this.selectedMarkerType}`);
-
-    let marker = new google.maps.Marker({
-      position: location,
-      map: this.map,
-      icon: this.iconBase + this.selectedMarkerType,
-      title: 'Got you!'
-    });
-  }
-
-  toggleMap() {
-    this.isHidden = !this.isHidden;
-
-    this.gmapElement.nativeElement.hidden = this.isHidden;
   }
 }
