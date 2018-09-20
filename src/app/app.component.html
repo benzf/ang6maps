@@ -8,8 +8,8 @@
 
   <div class="row">
 	<h3>
-      <span>Longitude: {{currentLong}}</span>
-      <span>Latitude: {{currentLat}}</span>
+      <p>Longitude: {{currentLong}}</p>
+      <p>Latitude: {{currentLat}}</p>
 	  </h3>
   </div>
   <br>
@@ -18,7 +18,7 @@
     <button (click)="setMapType('terrain')" class="btn btn-primary">Terrain</button>
     <button (click)="setMapType('satellite')" class="btn btn-danger">Satellite</button>
     <button (click)="setMapType('roadmap')" class="btn btn-warning">Road Map</button>
-	<button class="btn btn-primary" (click)="findMe()">Find me</button>
+	<button class="btn btn-primary" (click)="onrepeat()">Find me</button>
     
   </div>
   <br>

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewChild } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import {interval } from 'rxjs';
 import { } from '@types/googlemaps';
 
 @Component({
@@ -24,13 +26,6 @@ export class AppComponent {
     {
       text: "Parking", value: "parking_lot_maps.png"
     }
-    // ,
-    // {
-    //   text: "Library", value: "library_maps.png"
-    // },
-    // {
-    //   text: "Information", value: "info-i_maps.png"
-    // }
   ];
 
   selectedMarkerType: string = "parking_lot_maps.png";
@@ -50,6 +45,19 @@ export class AppComponent {
     this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
 
   }
+  
+  
+  onrepeat(){
+  // Create an Observable that will publish a value on an interval
+	const secondsCounter = interval(5000);
+	// Subscribe to begin publishing values
+	secondsCounter.subscribe(n =>
+  navigator.geolocation.getCurrentPosition((position) => {
+        this.showPosition(position);
+      }));
+}
+  
+  
     findMe(){
 	    console.log(`findMe pressed`);
     	if (navigator.geolocation) {
